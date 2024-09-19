@@ -18,10 +18,17 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
+import com.valeriia.beta_ver_1.adapter.ArticleAdapter;
+import com.valeriia.beta_ver_1.model.Article;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -29,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     BottomNavigationView bottomNavigationView;
     FragmentManager fragmentManager;
     Toolbar toolbar;
+
+//    RecyclerView articleRecycler;
+//    ArticleAdapter articleAdapter;
 
 
     @Override
@@ -75,15 +85,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         });
 
-
         fragmentManager = getSupportFragmentManager();
         openFragment(new HomeFragment());
-//
-//        if (savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-//            sideNavigationView.setCheckedItem(R.id.nav_home);
-//        }
-
     }
 
     @Override

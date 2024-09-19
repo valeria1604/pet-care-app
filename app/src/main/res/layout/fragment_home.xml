@@ -8,17 +8,17 @@
     tools:context=".HomeFragment">
 
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/home_nav"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/articleRecycler"
+        android:layout_width="408dp"
+        android:layout_height="373dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="286dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

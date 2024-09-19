@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">beta-ver-1</string>
+    <string name="app_name">pet-care-app</string>
     <string name="home_nav">Home</string>
     <string name="library_nav">Library</string>
     <string name="profile_nav">Profile</string>
