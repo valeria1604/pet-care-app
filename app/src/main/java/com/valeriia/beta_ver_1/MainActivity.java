@@ -46,8 +46,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+
+        // Скрыть ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
 
         drawerLayout = findViewById(R.id.main);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav,

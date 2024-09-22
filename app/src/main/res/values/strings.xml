@@ -16,4 +16,5 @@
     <string name="healthcare_recycler_heading">Healthcare</string>
     <string name="reset">RESET</string>
     <string name="start">START</string>
+    <string name="add_to_list">Add to list</string>
 </resources>
