@@ -41,7 +41,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     Toast.makeText(RegistrationActivity.this, "Регистрация прошла успешно!", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                    Intent intent = new Intent(RegistrationActivity.this, RegisterDogActivity.class);
                     startActivity(intent);
                     finish();
                 } else {

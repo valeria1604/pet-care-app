@@ -68,7 +68,7 @@ public class TimerFragment extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (timerTask != null) {
                     timerTask.cancel();
-                    setButtonUI("START", R.color.black);
+                    setButtonUI("START", R.color.white);
                     time = 0.0;
                     timerStarted = false;
                     timerText.setText(formatTime(0, 0, 0));
