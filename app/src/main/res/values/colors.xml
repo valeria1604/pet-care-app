@@ -8,4 +8,5 @@
     <color name="navBackgroundColorPeach">#F2DBCA</color>
     <color name="navBackgroundColorBlue">#C8D6E2</color>
     <color name="semi_transparent_dark">#800E0000</color>
+    <color name="hint_color">#80FFFFFF</color>
 </resources>

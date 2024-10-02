@@ -1,7 +1,10 @@
 package com.valeriia.beta_ver_1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -18,6 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,6 +48,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Проверяем, зарегистрирован ли пользователь
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        boolean isRegistered = sharedPreferences.getBoolean("isRegistered", false);
+
+        if (!isRegistered) {
+            // Если не зарегистрирован, перенаправляем на экран регистрации
+            Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
+            startActivity(intent);
+            finish(); // Закрываем MainActivity
+            return;
+        }
+
         setContentView(R.layout.activity_main);
 
 //        toolbar = findViewById(R.id.toolbar);
@@ -63,8 +80,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView sideNavigationView = findViewById(R.id.side_nav_view);
         sideNavigationView.setNavigationItemSelectedListener(this);
 
+        // Получаем ссылку на заголовок NavigationView (если username_sidenav находится в заголовке)
+        View headerView = sideNavigationView.getHeaderView(0); // 0 для первого заголовка, если он есть
+        TextView usernameTextView = headerView.findViewById(R.id.username_sidenav);
+
+        // Получаем имя пользователя из SharedPreferences
+        String username = sharedPreferences.getString("username", "Guest"); // По умолчанию "Guest"
+        usernameTextView.setText(username); // Устанавливаем имя пользователя в TextView
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setBackground(null);
+
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -90,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         });
 
+
         fragmentManager = getSupportFragmentManager();
         openFragment(new HomeFragment());
     }
@@ -105,7 +132,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_diary) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DiaryFragment()).commit();
         } else if (id == R.id.nav_logout) {
-            Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
+            // Выход из аккаунта
+            SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear(); // Очищаем все данные
+            editor.apply();
+
+            Toast.makeText(MainActivity.this, "Вы вышли из аккаунта!", Toast.LENGTH_SHORT).show();
+
+            // Переход на экран регистрации
+            Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
+            startActivity(intent);
+            finish(); // Закрываем MainActivity
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);

@@ -17,4 +17,7 @@
     <string name="reset">RESET</string>
     <string name="start">START</string>
     <string name="add_to_list">Add to list</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Login</string>
 </resources>
