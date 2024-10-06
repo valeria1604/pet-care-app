@@ -6,12 +6,12 @@ import java.util.Locale;
 
 public class Item {
     private String text;
-    private Date timestamp;
+    private Date customDate; // Введённая пользователем дата
 
     // Конструктор
-    public Item(String text, Date timestamp) {
+    public Item(String text, Date customDate) {
         this.text = text;
-        this.timestamp = timestamp;
+        this.customDate = customDate;
     }
 
     // Геттеры
@@ -19,9 +19,9 @@ public class Item {
         return text;
     }
 
-    public String getFormattedTimestamp() {
-        // Форматируем дату в читаемый вид (например, "dd/MM/yyyy HH:mm:ss")
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
-        return sdf.format(timestamp);
+    public String getFormattedDate() {
+        // Форматируем дату в читаемый вид (например, "dd/MM/yyyy HH:mm")
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        return sdf.format(customDate);
     }
 }
