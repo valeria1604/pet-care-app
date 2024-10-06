@@ -22,4 +22,8 @@
     <string name="login_button">Login</string>
     <string name="name_hint">Name</string>
     <string name="age_hint">Age</string>
+    <string name="delete_account">Delete account</string>
+    <string name="edit">Edit</string>
+    <string name="back"><![CDATA[<-]]></string>
+    <string name="next"><![CDATA[->]]></string>
 </resources>
