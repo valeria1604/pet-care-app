@@ -1,5 +1,6 @@
 package com.valeriia.beta_ver_1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,16 +9,21 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.valeriia.beta_ver_1.adapter.CalendarAdapter;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
+import androidx.fragment.app.Fragment;
+
+import com.valeriia.beta_ver_1.adapter.CalendarAdapter;
+import com.valeriia.beta_ver_1.model.CalendarUtils;
+
+import static com.valeriia.beta_ver_1.model.CalendarUtils.daysInMonthArray;
+import static com.valeriia.beta_ver_1.model.CalendarUtils.monthYearFromDate;
 
 public class DiaryFragment extends Fragment implements CalendarAdapter.OnItemListener {
 
@@ -40,10 +46,10 @@ public class DiaryFragment extends Fragment implements CalendarAdapter.OnItemLis
 
         // Initialize the widgets and set up the calendar view
         initWidgets(view);
-        selectedDate = LocalDate.now();
+        CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
 
-        // Set up click listeners for previous and next month buttons
+
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +63,14 @@ public class DiaryFragment extends Fragment implements CalendarAdapter.OnItemLis
                 nextMonthAction();
             }
         });
+
+        monthYearText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                weeklyAction();
+            }
+        });
+
     }
 
     private void initWidgets(View view) {
@@ -66,55 +80,44 @@ public class DiaryFragment extends Fragment implements CalendarAdapter.OnItemLis
         nextButton = view.findViewById(R.id.nextButton);  // Initialize the button
     }
 
-    private void setMonthView() {
-        monthYearText.setText(monthYearFromDate(selectedDate));
-        ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
+    private void setMonthView()
+    {
+        monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
+        ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 7);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(requireContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
-    private ArrayList<String> daysInMonthArray(LocalDate date) {
-        ArrayList<String> daysInMonthArray = new ArrayList<>();
-        YearMonth yearMonth = YearMonth.from(date);
-
-        int daysInMonth = yearMonth.lengthOfMonth();
-
-        LocalDate firstOfMonth = selectedDate.withDayOfMonth(1);
-        int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
-
-        for (int i = 1; i <= 42; i++) {
-            if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
-                daysInMonthArray.add("");
-            } else {
-                daysInMonthArray.add(String.valueOf(i - dayOfWeek));
-            }
-        }
-        return daysInMonthArray;
-    }
-
-    private String monthYearFromDate(LocalDate date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
-        return date.format(formatter);
-    }
-
     public void previousMonthAction() {
-        selectedDate = selectedDate.minusMonths(1);
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
         setMonthView();
     }
 
     public void nextMonthAction() {
-        selectedDate = selectedDate.plusMonths(1);
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
+        setMonthView();
+    }
+
+    public void weeklyAction() {
+        // Replace the current fragment with CalendarWeekFragment
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new CalendarWeekFragment())
+                .addToBackStack(null) // Allows going back to the DiaryFragment
+                .commit();
+
         setMonthView();
     }
 
     @Override
-    public void onItemClick(int position, String dayText) {
-        if (!dayText.equals("")) {
-            String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
-            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    public void onItemClick(int position, LocalDate date)
+    {
+        if(date != null)
+        {
+            CalendarUtils.selectedDate = date;
+            setMonthView();
         }
     }
 
