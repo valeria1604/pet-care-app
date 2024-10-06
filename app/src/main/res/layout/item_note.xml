@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/rounded_corner_3"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/titleoutput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        tools:text="My Title" />
+
+    <TextView
+        android:id="@+id/descriptionoutput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleoutput"
+        android:textColor="#393939"
+        tools:text="My long long long description" />
+
+    <TextView
+        android:id="@+id/timeoutput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descriptionoutput"
+        android:gravity="end"
+        android:textColor="#858484"
+        android:textSize="12sp"
+        tools:text="Jan 21 2020 " />
+
+    <!-- Кнопка удаления -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/deleteNoteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/timeoutput"
+        android:backgroundTint="@color/dark_pink_color"
+        android:text="Delete"
+        android:textColor="@color/white" />
+
+</RelativeLayout>
