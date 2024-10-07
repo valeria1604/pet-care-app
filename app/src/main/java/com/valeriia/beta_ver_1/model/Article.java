@@ -2,13 +2,14 @@ package com.valeriia.beta_ver_1.model;
 
 public class Article {
     int id;
-    String title, img, theme;
+    String title, img, theme, text;
 
-    public Article(int id, String title, String img, String theme) {
+    public Article(int id, String title, String img, String theme, String text) {
         this.id = id;
         this.title = title;
         this.img = img;
         this.theme = theme;
+        this.text = text;
     }
 
     public int getId() {
@@ -41,5 +42,13 @@ public class Article {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }
