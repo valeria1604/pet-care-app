@@ -11,4 +11,5 @@
     <color name="dark_blue_color">#97B6BF</color>
     <color name="dark_pink_color">#AE716C</color>
     <color name="hint_color">#80FFFFFF</color>
+    <color name="gray_color">#5A5A5A</color>
 </resources>

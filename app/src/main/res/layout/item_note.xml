@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/titleoutput"
-        android:textColor="#393939"
+        android:textColor="@color/gray_color"
         tools:text="My long long long description" />
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/descriptionoutput"
         android:gravity="end"
-        android:textColor="#858484"
+        android:textColor="@color/dark_blue_color"
         android:textSize="12sp"
         tools:text="Jan 21 2020 " />
 
