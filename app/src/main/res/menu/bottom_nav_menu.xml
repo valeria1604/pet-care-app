@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_home"
+        android:id="@+id/navHome"
         android:icon="@drawable/home_icon"
         android:title="" />
     <item
-        android:id="@+id/nav_timer"
+        android:id="@+id/bottomNavTimer"
         android:icon="@drawable/clock_icon"
         android:title="" />
     <item
-        android:id="@+id/nav_food"
+        android:id="@+id/bottomNavFood"
         android:icon="@drawable/food_icon"
         android:title="" />
     <item
-        android:id="@+id/nav_healthcare"
+        android:id="@+id/bottomNavHealthcare"
         android:icon="@drawable/health_icon"
         android:title="" />
 </menu>

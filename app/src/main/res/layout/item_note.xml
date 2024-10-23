@@ -8,7 +8,7 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/titleoutput"
+        android:id="@+id/itemNoteTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
@@ -16,32 +16,30 @@
         tools:text="My Title" />
 
     <TextView
-        android:id="@+id/descriptionoutput"
+        android:id="@+id/itemNoteDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/titleoutput"
+        android:layout_below="@id/itemNoteTitle"
         android:textColor="@color/gray_color"
         tools:text="My long long long description" />
 
     <TextView
-        android:id="@+id/timeoutput"
+        android:id="@+id/itemNoteTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/descriptionoutput"
+        android:layout_below="@id/itemNoteDesc"
         android:gravity="end"
         android:textColor="@color/dark_blue_color"
         android:textSize="12sp"
         tools:text="Jan 21 2020 " />
 
-    <!-- Кнопка удаления -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/deleteNoteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/itemNoteTime"
         android:layout_alignParentEnd="true"
-        android:layout_below="@id/timeoutput"
         android:backgroundTint="@color/dark_pink_color"
-        android:text="Delete"
+        android:text="@string/delete"
         android:textColor="@color/white" />
-
 </RelativeLayout>

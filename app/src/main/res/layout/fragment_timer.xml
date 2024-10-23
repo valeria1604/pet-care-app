@@ -6,9 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".TimerFragment">
 
-
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+        android:id="@+id/cardTimer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="60dp"
@@ -16,7 +15,6 @@
         android:layout_marginBottom="120dp"
         android:background="@color/white"
         android:orientation="vertical"
-
         app:cardCornerRadius="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/dogTimerImgBottom"
+            android:id="@+id/timeFragmentImage"
             android:layout_width="366dp"
             android:layout_height="321dp"
             android:layout_gravity="center"
@@ -36,6 +34,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center_horizontal"
+            android:contentDescription="logo"
             android:src="@drawable/logo" />
 
         <LinearLayout
@@ -45,7 +44,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/timerText"
+                android:id="@+id/timerValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -54,14 +53,13 @@
                 android:textSize="35sp" />
 
             <Button
-                android:layout_width="wrap_content"
                 android:id="@+id/resetButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:onClick="resetTapped"
-                android:text="@string/reset"
-                android:backgroundTint="@color/black"
                 android:background="@null"
+                android:backgroundTint="@color/black"
+                android:text="@string/reset"
                 android:textColor="@color/white"
                 android:textSize="15sp" />
 
@@ -70,17 +68,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:backgroundTint="@color/black"
-                android:onClick="startStopTapped"
                 android:background="@null"
+                android:backgroundTint="@color/black"
                 android:text="@string/start"
                 android:textColor="@color/white"
                 android:textSize="15sp" />
-
-
         </LinearLayout>
-
-
     </androidx.cardview.widget.CardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

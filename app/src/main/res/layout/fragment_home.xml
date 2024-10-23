@@ -7,7 +7,7 @@
     tools:context=".HomeFragment">
 
     <TextView
-        android:id="@+id/food_heading"
+        android:id="@+id/foodThemeHomeFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -26,10 +26,10 @@
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/food_heading" />
+        app:layout_constraintTop_toBottomOf="@id/foodThemeHomeFragment" />
 
     <TextView
-        android:id="@+id/healthcare_heading"
+        android:id="@+id/healthcareThemeHomeFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -48,5 +48,5 @@
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/healthcare_heading" />
+        app:layout_constraintTop_toBottomOf="@id/healthcareThemeHomeFragment" />
 </androidx.constraintlayout.widget.ConstraintLayout>

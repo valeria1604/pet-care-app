@@ -4,21 +4,19 @@
     android:orientation="horizontal"
     android:padding="10dp">
 
-    <!-- Текстовое поле для отображения текста элемента списка -->
     <TextView
-        android:id="@+id/itemText"
+        android:id="@+id/itemFoodTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Item Text"
+        android:text="Item text"
         android:textSize="16sp" />
 
-    <!-- Кнопка для удаления элемента списка -->
     <Button
         android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete"
         android:backgroundTint="@color/black"
+        android:text="@string/delete"
         android:textColor="@color/white" />
 </LinearLayout>

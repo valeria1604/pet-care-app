@@ -1,13 +1,14 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.valeriia.beta_ver_1"
+    namespace = "com.valeriia.pet_app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.valeriia.beta_ver_1"
+        applicationId = "com.valeriia.pet_app"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -40,4 +41,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-analytics")
 }
