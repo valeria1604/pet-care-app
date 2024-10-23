@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ import java.util.Locale;
 
 public class AddNoteFragment extends Fragment {
 
-    private FirebaseFirestore firestore; // Firestore instance
+    private FirebaseFirestore firestore;
 
     private EditText titleInput;
     private EditText descriptionInput;
@@ -53,7 +52,6 @@ public class AddNoteFragment extends Fragment {
         calendar = Calendar.getInstance();
         userId = getUserIdFromPreferences();
 
-        // Initialize Firestore
         firestore = FirebaseFirestore.getInstance();
 
         selectDateButton.setOnClickListener(v -> showDatePickerDialog());
@@ -98,8 +96,7 @@ public class AddNoteFragment extends Fragment {
         if (!title.isEmpty() && !description.isEmpty() && !dateInput.getText().toString().isEmpty()) {
             Note note = new Note(title, description, date, userId);
 
-            // Save note to Firestore
-            DocumentReference newNoteRef = firestore.collection("notes").document(); // Creates a new document
+            DocumentReference newNoteRef = firestore.collection("notes").document();
             newNoteRef.set(note)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(getContext(), "Note saved successfully!", Toast.LENGTH_SHORT).show();
@@ -115,6 +112,6 @@ public class AddNoteFragment extends Fragment {
 
     private int getUserIdFromPreferences() {
         SharedPreferences prefs = requireActivity().getSharedPreferences("MyAppPrefs", getActivity().MODE_PRIVATE);
-        return prefs.getInt("userId", -1); // Default to 0 if no userId found
+        return prefs.getInt("userId", -1);
     }
 }

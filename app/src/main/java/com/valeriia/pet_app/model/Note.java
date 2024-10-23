@@ -8,6 +8,11 @@ public class Note {
     private Date date;
     private int userId; // New field
 
+
+    // Пустой конструктор, необходим для Firestore
+    public Note() {}
+
+
     public Note(String title, String description, Date date, int userId) {
         this.title = title;
         this.description = description;
