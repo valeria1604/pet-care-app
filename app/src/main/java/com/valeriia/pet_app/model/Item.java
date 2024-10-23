@@ -1,30 +1,27 @@
 package com.valeriia.pet_app.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import com.google.firebase.Timestamp;
 
 public class Item {
     private String text;
-    private Date customDate;
-    private int userId; // New field
+    private Timestamp customDate; // Храним дату как Timestamp
+    private int userId; // Поле для userId
 
-    public Item(String text, Date customDate, int userId) {
+    public Item(String text, Timestamp customDate, int userId) {
         this.text = text;
-        this.customDate = customDate;
-        this.userId = userId; // Initialize the userId field
+        this.customDate = customDate; // Инициализируем поле customDate
+        this.userId = userId; // Инициализируем поле userId
     }
 
     public String getText() {
         return text;
     }
 
-    public String getFormattedDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-        return sdf.format(customDate);
+    public Timestamp getCustomDate() {
+        return customDate; // Возвращаем Timestamp
     }
 
-    public int getUserId() {  // Getter for userId
+    public int getUserId() {  // Getter для userId
         return userId;
     }
 }
