@@ -46,6 +46,16 @@
                 android:inputType="number"
                 android:padding="15dp" />
 
+            <EditText
+                android:id="@+id/petWeightInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rounded_corner"
+                android:hint="@string/weight_hint"
+                android:inputType="number"
+                android:padding="15dp" />
+
             <Spinner
                 android:id="@+id/breedSpinner"
                 android:layout_width="match_parent"

@@ -43,4 +43,5 @@
     <string name="delete">Delete</string>
     <string name="tell_us_about_your_pet">Tell us about your pet!</string>
     <string name="let_s_start">Let\'s start!</string>
+    <string name="weight_hint">Weight</string>
 </resources>

@@ -25,6 +25,7 @@ public class RegisterPetActivity extends AppCompatActivity {
 
     private EditText petNameInput;
     private EditText petAgeInput;
+    private EditText petWeightInput;
     private Spinner petBreedSpinner;
     private RadioGroup petGenderRadioGroup;
     private Button registerPetButton;
@@ -37,6 +38,7 @@ public class RegisterPetActivity extends AppCompatActivity {
 
         petNameInput = findViewById(R.id.petNameInput);
         petAgeInput = findViewById(R.id.petAgeInput);
+        petWeightInput = findViewById(R.id.petWeightInput);
         petBreedSpinner = findViewById(R.id.breedSpinner);
         petGenderRadioGroup = findViewById(R.id.petGenderRadioGroup);
         registerPetButton = findViewById(R.id.register_dog_button);
@@ -62,6 +64,7 @@ public class RegisterPetActivity extends AppCompatActivity {
     private void registerPet() {
         String name = petNameInput.getText().toString().trim();
         String ageStr = petAgeInput.getText().toString().trim();
+        String weightStr = petWeightInput.getText().toString().trim();
         String breed = petBreedSpinner.getSelectedItem().toString();
         int selectedGenderId = petGenderRadioGroup.getCheckedRadioButtonId();
 
@@ -71,6 +74,7 @@ public class RegisterPetActivity extends AppCompatActivity {
         }
 
         int age = Integer.parseInt(ageStr);
+        int weight = Integer.parseInt(weightStr);
         String gender = ((RadioButton) findViewById(selectedGenderId)).getText().toString();
 
         // Retrieve userId from SharedPreferences
@@ -83,7 +87,7 @@ public class RegisterPetActivity extends AppCompatActivity {
         }
 
         // Create a Pet object with userId
-        Pet pet = new Pet(name, age, breed, gender, userId);
+        Pet pet = new Pet(name, age, breed, gender, userId, weight);
 
         // Save pet data to Firestore
         DocumentReference newPetRef = firestore.collection("pets").document(); // Creates a new document
