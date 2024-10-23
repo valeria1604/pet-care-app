@@ -11,12 +11,24 @@ public class Event {
     private LocalTime time;
     private int userId; // New field
 
-    public static ArrayList<Event> eventsForDate(LocalDate date) {
+//    public static ArrayList<Event> eventsForDate(LocalDate date) {
+//        ArrayList<Event> events = new ArrayList<>();
+//
+//        for (Event event : eventsList) {
+//            if (event.getDate().equals(date))
+//                events.add(event);
+//        }
+//
+//        return events;
+//    }
+
+    public static ArrayList<Event> eventsForDateAndUser(LocalDate date, int userId) {
         ArrayList<Event> events = new ArrayList<>();
 
         for (Event event : eventsList) {
-            if (event.getDate().equals(date))
+            if (event.getDate().equals(date) && event.getUserId() == userId) {
                 events.add(event);
+            }
         }
 
         return events;

@@ -91,7 +91,6 @@ public class AddNoteFragment extends Fragment {
         String title = titleInput.getText().toString();
         String description = descriptionInput.getText().toString();
         Date date = calendar.getTime();
-        userId = getUserIdFromPreferences();
 
         if (!title.isEmpty() && !description.isEmpty() && !dateInput.getText().toString().isEmpty()) {
             Note note = new Note(title, description, date, userId);

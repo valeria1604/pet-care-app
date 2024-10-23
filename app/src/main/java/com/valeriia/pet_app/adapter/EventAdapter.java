@@ -15,11 +15,15 @@ import com.valeriia.pet_app.R;
 import com.valeriia.pet_app.model.CalendarUtils;
 import com.valeriia.pet_app.model.Event;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventAdapter extends ArrayAdapter<Event> {
-    public EventAdapter(@NonNull Context context, List<Event> events) {
+    private int userId;
+
+    public EventAdapter(@NonNull Context context, List<Event> events, int userId) {
         super(context, 0, events);
+        this.userId = userId; // Store userId
     }
 
     @NonNull
@@ -27,8 +31,9 @@ public class EventAdapter extends ArrayAdapter<Event> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Event event = getItem(position);
 
-        if (convertView == null)
+        if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_event_cell, parent, false);
+        }
 
         TextView eventCellTV = convertView.findViewById(R.id.eventHeadingCell);
         Button deleteEventButton = convertView.findViewById(R.id.deleteEventButton);
@@ -36,13 +41,10 @@ public class EventAdapter extends ArrayAdapter<Event> {
         String eventTitle = event.getName() + " " + CalendarUtils.formattedTime(event.getTime());
         eventCellTV.setText(eventTitle);
 
-        deleteEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                remove(event);
-                Event.eventsForDate(CalendarUtils.selectedDate).remove(event);
-                notifyDataSetChanged();
-            }
+        deleteEventButton.setOnClickListener(v -> {
+            remove(event);
+            Event.eventsList.remove(event); // Update the events list
+            notifyDataSetChanged();
         });
 
         return convertView;
