@@ -1,41 +1,36 @@
 package com.valeriia.pet_app;
 
-import android.content.DialogInterface;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class TimerFragment extends Fragment {
 
     private TextView timerText;
     private Button stopStartButton;
-
-    private Timer timer;
-    private TimerTask timerTask;
-    private Double time = 0.0;
-
     private boolean timerStarted = false;
+    private BroadcastReceiver broadcastReceiver;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_timer, container, false);
 
         timerText = view.findViewById(R.id.timerValue);
         stopStartButton = view.findViewById(R.id.startStopButton);
 
-        timer = new Timer();
+        // Запуск сервиса
+        Intent intent = new Intent(getActivity(), TimerService.class);
+        getActivity().startService(intent);
 
         stopStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +46,20 @@ public class TimerFragment extends Fragment {
             }
         });
 
+        // Регистрация BroadcastReceiver для получения обновленного времени
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals("TimerUpdated")) {
+                    double time = intent.getDoubleExtra("time", 0.0);
+                    timerText.setText(formatTime(time));
+                }
+            }
+        };
+
+        IntentFilter filter = new IntentFilter("TimerUpdated");
+        getActivity().registerReceiver(broadcastReceiver, filter);
+
         return view;
     }
 
@@ -58,24 +67,14 @@ public class TimerFragment extends Fragment {
         AlertDialog.Builder resetAlert = new AlertDialog.Builder(requireContext());
         resetAlert.setTitle("Reset Timer");
         resetAlert.setMessage("Are you sure you want to reset the timer?");
-        resetAlert.setPositiveButton("Reset", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if (timerTask != null) {
-                    timerTask.cancel();
-                    setButtonUI("START", R.color.white);
-                    time = 0.0;
-                    timerStarted = false;
-                    timerText.setText(formatTime(0, 0, 0));
-                }
-            }
+        resetAlert.setPositiveButton("Reset", (dialogInterface, i) -> {
+            Intent intent = new Intent(getActivity(), TimerService.class);
+            intent.setAction("RESET_TIMER");
+            getActivity().startService(intent);
         });
 
-        resetAlert.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // Do nothing
-            }
+        resetAlert.setNeutralButton("Cancel", (dialogInterface, i) -> {
+            // Ничего не делаем
         });
         resetAlert.show();
     }
@@ -84,15 +83,14 @@ public class TimerFragment extends Fragment {
         if (!timerStarted) {
             timerStarted = true;
             setButtonUI("STOP", R.color.navBackgroundColorPeach);
-            startTimer();
         } else {
             timerStarted = false;
             setButtonUI("START", R.color.white);
-
-            if (timerTask != null) {
-                timerTask.cancel();
-            }
         }
+
+        Intent intent = new Intent(getActivity(), TimerService.class);
+        intent.setAction("TOGGLE_TIMER");
+        getActivity().startService(intent);
     }
 
     private void setButtonUI(String text, int colorResId) {
@@ -100,33 +98,17 @@ public class TimerFragment extends Fragment {
         stopStartButton.setTextColor(ContextCompat.getColor(requireContext(), colorResId));
     }
 
-    private void startTimer() {
-        timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        time++;
-                        timerText.setText(getTimerText());
-                    }
-                });
-            }
-        };
-        timer.scheduleAtFixedRate(timerTask, 0, 1000);
-    }
-
-    private String getTimerText() {
+    private String formatTime(double time) {
         int rounded = (int) Math.round(time);
-
         int seconds = ((rounded % 86400) % 3600) % 60;
         int minutes = ((rounded % 86400) % 3600) / 60;
         int hours = ((rounded % 86400) / 3600);
-
-        return formatTime(seconds, minutes, hours);
+        return String.format("%02d", hours) + " : " + String.format("%02d", minutes) + " : " + String.format("%02d", seconds);
     }
 
-    private String formatTime(int seconds, int minutes, int hours) {
-        return String.format("%02d", hours) + " : " + String.format("%02d", minutes) + " : " + String.format("%02d", seconds);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(broadcastReceiver);
     }
 }
