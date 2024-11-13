@@ -73,15 +73,15 @@ public class ProfileFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Create a pet object from Firestore document data
                             petId = document.getId(); // Capture pet ID for updates
                             Pet pet = new Pet(
                                     document.getString("name"),
                                     document.getLong("age").intValue(),
                                     document.getString("breed"),
                                     document.getString("gender"),
-                                    document.getLong("weight").intValue(),
-                                    userId // Include the userId for reference
+                                    userId, // Include the userId for reference
+                                    document.getLong("weight").intValue()
+
                             );
                             displayPetData(pet);
                         }

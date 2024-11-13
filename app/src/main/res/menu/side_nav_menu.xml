@@ -18,6 +18,11 @@
             android:id="@+id/sideNavDiary"
             android:icon="@drawable/diary_icon"
             android:title="@string/diary_nav" />
+
+        <item
+           android:id="@+id/sideNavSymptoms"
+            android:icon="@drawable/health_icon_2"
+            android:title="Check disease" />
     </group>
 
     <item

@@ -56,12 +56,16 @@
                 android:inputType="number"
                 android:padding="15dp" />
 
-            <Spinner
-                android:id="@+id/breedSpinner"
+            <EditText
+                android:id="@+id/breedInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/rounded_corner" />
+                android:background="@drawable/rounded_corner"
+                android:hint="@string/breed_hint"
+                android:inputType="text"
+                android:padding="15dp" />
+
 
             <RadioGroup
                 android:id="@+id/petGenderRadioGroup"

@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new ProfileFragment()).commit();
         } else if (id == R.id.sideNavDiary) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new DiaryFragment()).commit();
+        } else if(id == R.id.sideNavSymptoms){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new SymptomFragment()).commit();
         } else if (id == R.id.nav_logout) {
             SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
