@@ -62,13 +62,26 @@
             android:textSize="15sp" />
 
         <Button
-            android:id="@+id/createAccountButton"
+            android:id="@+id/sendEmailButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
             android:padding="15dp"
-            android:text="@string/create_account_button"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:text="Send Verification Email"
+            android:layout_below="@id/passwordInput"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:padding="15dp"
+            android:textColor="@color/black"
+            android:text="Next"
+            android:layout_below="@id/sendEmailButton"
+            />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

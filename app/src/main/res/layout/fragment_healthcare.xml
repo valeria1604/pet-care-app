@@ -33,6 +33,14 @@
                 android:backgroundTint="@color/white"
                 android:text="@string/add_new_note"
                 android:textColor="@color/dark_blue_color" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/filterNotesButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:text="Filter Notes"
+                android:textColor="@color/dark_blue_color" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

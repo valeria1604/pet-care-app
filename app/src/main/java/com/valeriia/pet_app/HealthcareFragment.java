@@ -27,13 +27,17 @@ import com.valeriia.pet_app.model.Note;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.app.AlertDialog;
+import android.widget.EditText;
+
 public class HealthcareFragment extends Fragment implements NoteAdapter.OnNoteDeleteListener {
 
     private ArrayList<Note> notesList = new ArrayList<>();
     private NoteAdapter adapter;
-
     private FirebaseFirestore firestore;
     private int userId;
+
+    private ArrayList<Note> allNotes = new ArrayList<>(); // Храним все заметки
 
     @Nullable
     @Override
@@ -41,7 +45,6 @@ public class HealthcareFragment extends Fragment implements NoteAdapter.OnNoteDe
         View view = inflater.inflate(R.layout.fragment_healthcare, container, false);
 
         firestore = FirebaseFirestore.getInstance();
-
         userId = getUserIdFromPreferences();
 
         RecyclerView recyclerView = view.findViewById(R.id.healthcareFragmentRecyclerView);
@@ -54,17 +57,64 @@ public class HealthcareFragment extends Fragment implements NoteAdapter.OnNoteDe
         MaterialButton addNewNoteButton = view.findViewById(R.id.addNewNoteButton);
         addNewNoteButton.setOnClickListener(v -> openAddNoteFragment());
 
+        MaterialButton filterNotesButton = view.findViewById(R.id.filterNotesButton);
+        filterNotesButton.setOnClickListener(v -> openFilterDialog());
+
         return view;
     }
 
     private void openAddNoteFragment() {
         AddNoteFragment addNoteFragment = new AddNoteFragment();
-        addNoteFragment.setTargetFragment(this, 1);
+        addNoteFragment.setTargetFragment(this, 1); // Устанавливаем текущий фрагмент как целевой для обратной связи
 
         getParentFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer, addNoteFragment)
-                .addToBackStack(null)
-                .commit();
+                .replace(R.id.fragmentContainer, addNoteFragment) // Заменяем текущий фрагмент
+                .addToBackStack(null) // Добавляем транзакцию в back stack для возможности вернуться назад
+                .commit(); // Применяем транзакцию
+    }
+
+
+    private void openFilterDialog() {
+        // Создаём диалог
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_filter_notes, null);
+        builder.setView(dialogView);
+
+        EditText filterEditText = dialogView.findViewById(R.id.filterEditText);
+        MaterialButton applyFilterButton = dialogView.findViewById(R.id.applyFilterButton);
+        MaterialButton resetFilterButton = dialogView.findViewById(R.id.resetFilterButton);
+
+        AlertDialog dialog = builder.create();
+
+        applyFilterButton.setOnClickListener(v -> {
+            String keyword = filterEditText.getText().toString().trim();
+            if (!keyword.isEmpty()) {
+                filterNotes(keyword);
+            }
+            dialog.dismiss();
+        });
+
+        resetFilterButton.setOnClickListener(v -> {
+            resetFilter();
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+    private void filterNotes(String keyword) {
+        ArrayList<Note> filteredNotes = new ArrayList<>();
+        for (Note note : allNotes) {
+            if (note.getTitle().toLowerCase().contains(keyword.toLowerCase()) ||
+                    note.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                filteredNotes.add(note);
+            }
+        }
+        adapter.updateNotes(filteredNotes);
+    }
+
+    private void resetFilter() {
+        adapter.updateNotes(allNotes);
     }
 
     private void loadUserNotes() {
@@ -77,17 +127,17 @@ public class HealthcareFragment extends Fragment implements NoteAdapter.OnNoteDe
                     if (task.isSuccessful()) {
                         QuerySnapshot querySnapshot = task.getResult();
                         if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                            ArrayList<Note> fetchedNotes = new ArrayList<>();
+                            allNotes.clear();
                             for (QueryDocumentSnapshot document : querySnapshot) {
                                 Note note = new Note(
                                         document.getString("title"),
                                         document.getString("description"),
-                                        document.getTimestamp("date").toDate(),  // Преобразуем Timestamp в Date
-                                        document.getLong("userId").intValue()    // Преобразуем Long в int
+                                        document.getTimestamp("date").toDate(),
+                                        document.getLong("userId").intValue()
                                 );
-                                fetchedNotes.add(note);
+                                allNotes.add(note);
                             }
-                            adapter.updateNotes(fetchedNotes);
+                            adapter.updateNotes(allNotes);
                         } else {
                             Toast.makeText(getContext(), "No notes found", Toast.LENGTH_SHORT).show();
                         }
@@ -102,23 +152,25 @@ public class HealthcareFragment extends Fragment implements NoteAdapter.OnNoteDe
         return prefs.getInt("userId", -1);
     }
 
+    @Override
+    public void onNoteDelete(Note note) {
+        deleteNoteFromFirestore(note);
+    }
 
     private void deleteNoteFromFirestore(Note note) {
-        // Предположим, что в вашей заметке есть поле 'id', которое вы используете как идентификатор документа
         firestore.collection("notes")
-                .whereEqualTo("title", note.getTitle()) // Или другой уникальный идентификатор, например, ID
+                .whereEqualTo("title", note.getTitle())
                 .whereEqualTo("description", note.getDescription())
                 .whereEqualTo("date", note.getDate())
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Удаляем документ
                             document.getReference().delete()
                                     .addOnSuccessListener(aVoid -> {
                                         Toast.makeText(getContext(), "Note deleted successfully!", Toast.LENGTH_SHORT).show();
-                                        notesList.remove(note); // Удаляем заметку из списка
-                                        adapter.notifyDataSetChanged(); // Уведомляем адаптер
+                                        allNotes.remove(note);
+                                        adapter.notifyDataSetChanged();
                                     })
                                     .addOnFailureListener(e -> {
                                         Toast.makeText(getContext(), "Error deleting note: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -128,10 +180,5 @@ public class HealthcareFragment extends Fragment implements NoteAdapter.OnNoteDe
                         Toast.makeText(getContext(), "Note not found", Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    @Override
-    public void onNoteDelete(Note note) {
-        deleteNoteFromFirestore(note); // Вызов метода удаления
     }
 }
