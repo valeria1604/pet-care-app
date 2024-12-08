@@ -42,10 +42,17 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
+    androidTestImplementation("androidx.test:rules:1.4.0")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
+    androidTestImplementation("androidx.test:core:1.5.0")
+
+
     implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
 
+    testImplementation ("org.mockito:mockito-core:5.3.1")  // Для обычных юнит-тестов
+    androidTestImplementation ("org.mockito:mockito-android:5.3.1") // Для Android тестов
 }

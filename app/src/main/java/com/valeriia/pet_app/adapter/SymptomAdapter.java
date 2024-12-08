@@ -16,10 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomViewHolder> {
-    private List<Symptom> symptoms;
+    private final List<Symptom> symptoms;
+    private final OnSymptomSelectedListener listener;
 
-    public SymptomAdapter(List<Symptom> symptoms) {
+    public SymptomAdapter(List<Symptom> symptoms, OnSymptomSelectedListener listener) {
         this.symptoms = symptoms;
+        this.listener = listener;
     }
 
     @NonNull
@@ -51,7 +53,7 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
     }
 
     class SymptomViewHolder extends RecyclerView.ViewHolder {
-        private CheckBox checkBox;
+        private final CheckBox checkBox;
 
         public SymptomViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,23 +62,18 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
 
         public void bind(Symptom symptom) {
             checkBox.setText(symptom.getName());
-            checkBox.setChecked(symptom.isSelected());
 
             checkBox.setOnCheckedChangeListener(null);
+            checkBox.setChecked(symptom.isSelected());
 
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                symptom.setSelected(isChecked); // обновляем состояние в модели Symptom
-
-                checkBox.setOnCheckedChangeListener(null);
-
-                // Показать сообщение, если симптом выбран
-                if (isChecked) {
-                    Toast.makeText(itemView.getContext(), symptom.getName() + " selected", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(itemView.getContext(), symptom.getName() + " deselected", Toast.LENGTH_SHORT).show();
-                }
+                symptom.setSelected(isChecked);
+                listener.onSymptomSelected();
             });
-
         }
+    }
+
+    public interface OnSymptomSelectedListener {
+        void onSymptomSelected();
     }
 }

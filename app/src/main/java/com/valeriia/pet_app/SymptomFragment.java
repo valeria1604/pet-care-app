@@ -28,68 +28,59 @@ public class SymptomFragment extends Fragment {
     private Button diagnoseButton;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_symptom, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
         diagnoseButton = view.findViewById(R.id.diagnoseButton);
 
         List<Symptom> symptoms = getSymptomsList();
-        symptomAdapter = new SymptomAdapter(symptoms);
+        symptomAdapter = new SymptomAdapter(symptoms, this::updateDiagnoseButtonState);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(symptomAdapter);
 
         diagnoseButton.setOnClickListener(v -> {
-            if (isValidSelection()) {
-                diagnoseButton.setEnabled(false);
-                showPossibleDiseases();
-                diagnoseButton.setEnabled(true);
-            } else {
-                Toast.makeText(getContext(), "Please select at least one symptom.", Toast.LENGTH_SHORT).show();
-            }
+            showPossibleDiseases(symptomAdapter.getSelectedSymptoms());
         });
+
+        updateDiagnoseButtonState();
 
         return view;
     }
 
-    private boolean isValidSelection() {
-        return !symptomAdapter.getSelectedSymptoms().isEmpty();
+    private void updateDiagnoseButtonState() {
+        diagnoseButton.setEnabled(!symptomAdapter.getSelectedSymptoms().isEmpty());
     }
 
     private List<Symptom> getSymptomsList() {
-        List<Symptom> symptoms = new ArrayList<>();
-        symptoms.add(new Symptom("Loss of appetite"));
-        symptoms.add(new Symptom("Vomiting"));
-        symptoms.add(new Symptom("Diarrhea"));
-        symptoms.add(new Symptom("Lethargy"));
-        symptoms.add(new Symptom("Coughing"));
-        symptoms.add(new Symptom("Sneezing"));
-        symptoms.add(new Symptom("Increased thirst"));
-        symptoms.add(new Symptom("Frequent urination"));
-        symptoms.add(new Symptom("Weight loss"));
-        symptoms.add(new Symptom("Hair loss"));
-        symptoms.add(new Symptom("Itching or scratching"));
-        symptoms.add(new Symptom("Red or swollen gums"));
-        symptoms.add(new Symptom("Limping"));
-        symptoms.add(new Symptom("Shaking head"));
-        symptoms.add(new Symptom("Difficulty breathing"));
-        symptoms.add(new Symptom("Nasal discharge"));
-        symptoms.add(new Symptom("Swelling in abdomen"));
-        symptoms.add(new Symptom("Unusual aggression or anxiety"));
-        symptoms.add(new Symptom("Excessive drooling"));
-        symptoms.add(new Symptom("Seizures"));
-        return symptoms;
+        return Arrays.asList(
+                new Symptom("Loss of appetite"),
+                new Symptom("Vomiting"),
+                new Symptom("Diarrhea"),
+                new Symptom("Lethargy"),
+                new Symptom("Coughing"),
+                new Symptom("Sneezing"),
+                new Symptom("Increased thirst"),
+                new Symptom("Frequent urination"),
+                new Symptom("Weight loss"),
+                new Symptom("Hair loss"),
+                new Symptom("Itching or scratching"),
+                new Symptom("Red or swollen gums"),
+                new Symptom("Limping"),
+                new Symptom("Shaking head"),
+                new Symptom("Difficulty breathing"),
+                new Symptom("Nasal discharge"),
+                new Symptom("Swelling in abdomen"),
+                new Symptom("Unusual aggression or anxiety"),
+                new Symptom("Excessive drooling"),
+                new Symptom("Seizures")
+        );
     }
 
-    private void showPossibleDiseases() {
-        List<Symptom> selectedSymptoms = symptomAdapter.getSelectedSymptoms();
-
-        // Calculate possible diseases with their probability
+    private void showPossibleDiseases(List<Symptom> selectedSymptoms) {
         Map<String, Integer> diseaseProbabilities = diagnose(selectedSymptoms);
 
-        // Format the message with disease probabilities
         StringBuilder message = new StringBuilder();
         if (diseaseProbabilities.isEmpty()) {
             message.append("No diseases found for the selected symptoms.");
@@ -99,7 +90,6 @@ public class SymptomFragment extends Fragment {
             }
         }
 
-        // Show the result in an AlertDialog
         new AlertDialog.Builder(getContext())
                 .setTitle("Diagnosis Result")
                 .setMessage(message.toString())
@@ -143,4 +133,8 @@ public class SymptomFragment extends Fragment {
 
         return diseaseProbabilities;
     }
+
 }
+
+
+

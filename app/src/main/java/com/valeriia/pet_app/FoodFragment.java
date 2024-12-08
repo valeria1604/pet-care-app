@@ -37,6 +37,8 @@ public class FoodFragment extends Fragment {
     private FirebaseFirestore firestore; // Экземпляр Firestore
     private ListView listView;
 
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
